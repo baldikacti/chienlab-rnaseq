@@ -1,4 +1,4 @@
-# BactSeq
+# Chienlan-RNAseq
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A521.10.3-23aa62.svg?labelColor=000000)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
@@ -7,7 +7,9 @@
 
 ## Introduction
 
-**BactSeq** is a Nextflow pipeline for performing bacterial RNA-Seq analysis.
+**chienlab-rnaseq** is a Nextflow pipeline for performing bacterial RNA-Seq analysis.
+
+This pipeline has been built on top of the [BactSeq](https://github.com/adamd3/BactSeq) pipeline with moderate modifications.
 
 ## Pipeline summary
 
@@ -27,7 +29,7 @@ You will need to install [`Nextflow`](https://www.nextflow.io/) (version 21.10.3
 
 ```
 Usage:
-nextflow run BactSeq --data_dir [dir] --sample_file [file] --ref_genome [file] --ref_ann [file] -profile docker [other_options]
+nextflow run main.nf --data_dir [dir] --sample_file [file] --ref_genome [file] --ref_ann [file] -profile docker [other_options]
 
 Mandatory arguments:
   --data_dir [file]               Path to directory containing FastQ files.
