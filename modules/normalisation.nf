@@ -2,7 +2,7 @@ process TMM_NORMALISE_COUNTS {
     tag "$gene_counts"
     label 'process_medium'
     publishDir "${params.outdir}/read_counts", mode: 'copy'
-    conda "environment.yml"
+    conda "envs/r_env.yml"
 
     input:
     path gene_counts

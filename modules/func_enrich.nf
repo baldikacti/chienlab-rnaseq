@@ -2,7 +2,7 @@ process FUNC_ENRICHMENT {
     tag "$ch_func_file"
     label 'process_high'
     publishDir "${params.outdir}/func_enrich", mode: 'copy'
-    conda "environment.yml"
+    conda "envs/r_env.yml"
 
     input:
     path ch_func_file

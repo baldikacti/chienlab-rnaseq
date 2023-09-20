@@ -2,7 +2,7 @@ process PCA_SAMPLES {
     tag "$tmm_counts"
     label 'process_medium'
     publishDir "${params.outdir}/PCA_samples", mode: 'copy'
-    conda "environment.yml"
+    conda "envs/r_env.yml"
 
     input:
     path tmm_counts

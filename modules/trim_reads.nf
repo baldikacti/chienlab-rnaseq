@@ -8,7 +8,7 @@ process TRIMGALORE {
                       else if (filename.endsWith('trimming_report.txt')) "logs/$filename"
                       else params.save_trimmed ? filename : null
                 }
-    conda "environment.yml"
+    conda "envs/align_map.yml"
 
     input:
     tuple val(meta), path(reads)

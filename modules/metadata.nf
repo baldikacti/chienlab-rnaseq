@@ -1,7 +1,7 @@
 process MAKE_META_FILE {
     tag "$sample_file"
     publishDir "${params.outdir}/pipeline_info", mode: 'copy'
-    conda "./environment.yml"
+    conda "envs/py_env.yml"
 
     input:
     path sample_file

@@ -2,7 +2,7 @@ process DIFF_EXPRESSION {
     tag "$gene_counts"
     label 'process_high'
     publishDir "${params.outdir}/diff_expr", mode: 'copy'
-    conda "environment.yml"
+    conda "envs/r_env.yml"
 
     input:
     path gene_counts

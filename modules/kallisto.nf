@@ -3,7 +3,7 @@ process MAKE_KALLISTO_IDX {
     tag "$ref_genome"
     label 'process_high'
     publishDir "${params.outdir}/kallisto_idx", mode: 'copy'
-    conda "environment.yml"
+    conda "envs/align_map.yml"
 
     input:
     path ref_genome

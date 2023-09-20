@@ -2,7 +2,7 @@ process MAKE_BWA_INDEX {
     tag "$ref_genome"
     label 'process_high'
     publishDir "${params.outdir}/bwa_idx", mode: 'copy'
-    conda "environment.yml"
+    conda "envs/align_map.yml"
 
     input:
     path ref_genome
@@ -12,7 +12,7 @@ process MAKE_BWA_INDEX {
 
     script:
     """
-    bwa index $ref_genome -p ref_idx
+    bwa index -p ref_idx $ref_genome
     """
 }
 
@@ -20,13 +20,14 @@ process BWA_ALIGN {
     tag "$meta.sample_id"
     label 'process_high'
     publishDir "${params.outdir}/bwa_aln", mode: 'copy'
+    conda "envs/align_map.yml"
 
     input:
     tuple val(meta), path(trimmed_reads)
     path idx
 
     output:
-    path '*.bam', emit: bam_files
+    tuple val(meta), path("*.bam"), emit: bam_files
     path '*.bai', emit: bai_files
     path '*.counts', emit: count_files
 
@@ -58,9 +59,10 @@ process COUNT_READS {
     tag "$gff"
     label 'process_high'
     publishDir "${params.outdir}/read_counts", mode: 'copy'
+    conda "envs/r_env.yml"
 
     input:
-    path bam
+    tuple val(meta), path(bam)
     path bai
     path counts
     path meta
