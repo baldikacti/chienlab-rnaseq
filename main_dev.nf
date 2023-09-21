@@ -210,6 +210,29 @@ workflow {
     ch_rpkm_counts = TMM_NORMALISE_COUNTS.out.rpkm_counts
     // NB the resulting counts are log-transformed by default
     
+    /*
+     *  Principal component analysis (PCA) of samples
+     */
+    PCA_SAMPLES (
+        ch_cpm_counts,
+        ch_metadata
+    )
+    ch_pca_out = PCA_SAMPLES.out.pca_out
+    
+    /*
+     *  Differential gene expression (DESeq2)
+     */
+    if (params.cont_tabl) {
+        DIFF_EXPRESSION (
+            ch_readcounts_df_pc,
+            ch_metadata,
+            ch_cont_file,
+            params.p_thresh,
+            params.l2fc_thresh
+        )
+        ch_deseq_res = DIFF_EXPRESSION.out.deseq_res.collect()
+    }
+    
 }
 
 /*

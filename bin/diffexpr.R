@@ -30,16 +30,16 @@ option_list <- list(
 opt_parser <- OptionParser(option_list = option_list)
 opt <- parse_args(opt_parser)
 
-counts_f <- "gene_counts_pc.tsv"
-meta_f <- "sample_metadata.tsv"
-cont_tab_f <- "contrast_table.tsv"
+counts_f <- "results/QUO1006522/read_counts/gene_counts.tsv"
+meta_f <- "results/QUO1006522/pipeline_info/sample_metadata.tsv"
+cont_tab_f <- "results/QUO1006522/diff_expr/contrast_table.tsv"
 
 p_thresh <- opt$p_threshold
 l2fc_thresh <- opt$log2fc_threshold
 outdir <- opt$outdir
 
-
-
+p_thresh = 0.05
+l2fc_thresh = 1
 
 ## ------------------------------------------------------------------------------
 ## Read and process data
@@ -94,10 +94,17 @@ dds <- DESeqDataSetFromMatrix(
 dds <- DESeq(dds)
 
 ## perform pairwise contrasts of groups
+# contrast_list <- lapply(comb_list, function(x) {
+#   gp_1 <- x[1]
+#   gp_2 <- x[2]
+#   res <- lfcShrink(dds, contrast = c("group", gp_1, gp_2), type = "ashr")
+#   res
+# })
+
 contrast_list <- lapply(comb_list, function(x) {
   gp_1 <- x[1]
   gp_2 <- x[2]
-  res <- lfcShrink(dds, contrast = c("group", gp_1, gp_2), type = "ashr")
+  res <- results(dds, contrast = c("group", gp_1, gp_2))
   res
 })
 

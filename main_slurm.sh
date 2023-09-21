@@ -21,6 +21,8 @@ nextflow run main_dev.nf \
     --ref_ann references/ccna.gff \
     --outdir results/test \
     -profile conda \
+    -with-dag flowchart.html \
+    -with-timeline run_stats.html \
     -resume
 
 date

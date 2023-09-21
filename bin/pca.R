@@ -1,21 +1,6 @@
 #!/usr/bin/env Rscript
 
 ## load / install packages
-if (!require("optparse")){
-    install.packages("optparse",repos = "http://cran.us.r-project.org")
-}
-if (!require("ggplot2")){
-    install.packages("ggplot2",repos = "http://cran.us.r-project.org")
-}
-if (!require("RColorBrewer")){
-    install.packages("RColorBrewer",repos = "http://cran.us.r-project.org")
-}
-if (!require("devtools")){
-    install.packages("devtools",repos = "http://cran.us.r-project.org")
-}
-if (!require("ggbiplot")){
-    devtools::install_github("vqv/ggbiplot")
-}
 
 library(optparse)
 library(ggplot2)
