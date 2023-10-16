@@ -82,15 +82,21 @@ Explanation of parameters:
   
   Sample file can contain a mix of single-end and paired-end, and a mix of stranded and unstranded samples.
 
-  | sample | file1                  | file2 | group             | rep_no | paired | strandedness |
-  | :----: | :-------------------:  | :---: | :---------------: | :----: | :----: | :----------: |
-  | AS_1   | SRX1607051_T1.fastq.gz |       | Artificial_Sputum |   1    |   1    |    reverse   |
-  | AS_2   | SRX1607052_T1.fastq.gz |       | Artificial_Sputum |   2    |   1    |    reverse   |
-  | AS_3   | SRX1607053_T1.fastq.gz |       | Artificial_Sputum |   3    |   1    |    reverse   |
-  | MB_1   | SRX1607054_T1.fastq.gz |       | Middlebrook       |   1    |   1    |    reverse   |
-  | MB_2   | SRX1607055_T1.fastq.gz |       | Middlebrook       |   2    |   1    |    reverse   |
-  | MB_3   | SRX1607056_T1.fastq.gz |       | Middlebrook       |   3    |   1    |    reverse   |
-
+  ```console
+  sample	file1   file2	group	rep_no  paired strandedness
+  AS_1	SRX1607051_T1.fastq.gz	    Artificial_Sputum	1   1 reverse
+  AS_2	SRX1607052_T1.fastq.gz	    Artificial_Sputum	2   1 reverse
+  AS_3	SRX1607053_T1.fastq.gz	    Artificial_Sputum	3   1 reverse
+  MB_1	SRX1607054_T1.fastq.gz	    Middlebrook	1   1 reverse
+  MB_2	SRX1607055_T1.fastq.gz	    Middlebrook	2   1 reverse
+  MB_3	SRX1607056_T1.fastq.gz	    Middlebrook	3   1 reverse
+  ER_1	SRX1607060_T1.fastq.gz	    Erythromycin	1   1 reverse
+  ER_2	SRX1607061_T1.fastq.gz	    Erythromycin	2   1 reverse
+  ER_3	SRX1607062_T1.fastq.gz	    Erythromycin	3   1 reverse
+  KN_1	SRX1607066_T1.fastq.gz	    Kanamycin	1   1 reverse
+  KN_2	SRX1607067_T1.fastq.gz	    Kanamycin	2   1 reverse
+  KN_3	SRX1607068_T1.fastq.gz	    Kanamycin	3   1 reverse
+  ```
 
 ## Output
 
