@@ -20,16 +20,6 @@ option_list <- list(
         help = "GFF annotation file for the reference strain",
         metavar = "character"
     ),
-    make_option(c("-p", "--is_paired"),
-        type = "character", default = NULL,
-        help = "are the reads paired-end? default = FALSE",
-        metavar = "character"
-    ),
-    make_option(c("-s", "--strandedness"),
-        type = "character", default = NULL,
-        help = "read strandedness. default = reverse",
-        metavar = "character"
-    ),
     make_option(c("-t", "--threads"),
         type = "numeric", default = 1,
         help = "number of threads to use. default = 1.",
@@ -42,27 +32,18 @@ opt <- parse_args(opt_parser)
 
 meta_f <- opt$metadata
 gff_f <- opt$gff
-ispaired <- if (opt$is_paired == "TRUE") TRUE else FALSE
-strandedness <- opt$strandedness
 threads <- opt$threads
-
-
 
 ## ------------------------------------------------------------------------------
 ## Read data
 ## ------------------------------------------------------------------------------
 meta_tab <- read.table(meta_f, header = TRUE, sep = "\t")
-## columns: sample	 file1   file2	group	rep_no    paired
+## columns: sample	 file1   file2	group	rep_no    paired  strandedness
 
 
 ## cat the counts files
-# system("cat *.counts > merged_counts.txt")
 
 total_counts_list <- lapply(meta_tab$sample, function(x) {
-    # total_counts <- read.table(paste0(x,".counts"), header = FALSE, sep = "\t")
-    # total_counts$sample <- x
-    # colnames(total_counts) <- c("chr","chr_size","mapped","blank","sample")
-    # total_counts
     mapped_count <- read.table(paste0(x, ".counts"), header = FALSE)
     colnames(mapped_count) <- "mapped"
     mapped_count$sample <- x
@@ -114,14 +95,17 @@ write.table(
 ## Count reads mapping to genes
 ## ------------------------------------------------------------------------------
 bamfilesCount <- paste0(meta_tab$sample, ".bam")
-
+ispaired <- as.logical(meta_tab$paired)
+strand <- sapply(meta_tab$strandedness, function(x) {
+    switch(as.character(x),
+        "unstranded" = 0,
+        "forward" = 1,
+        "reverse" = 2,
+        stop("Invalid input")
+    )
+}, USE.NAMES = FALSE)
 # 0 (unstranded), 1 (stranded) and 2 (reversely stranded)
-strand <- switch(as.character(strandedness),
-    "unstranded" = 0,
-    "forward" = 1,
-    "reverse" = 2,
-    stop("Invalid input")
-)
+
 
 gene_counts <- Rsubread::featureCounts(
     bamfilesCount,
@@ -189,16 +173,8 @@ colnames(biotype_counts) <- all_biotypes
 counts_summary <- data.frame(
     sample = meta_tab$"sample",
     group = meta_tab$"group",
-    rep = meta_tab$"rep_no" # ,
-    # protein_coding = colSums(
-    #     gene_counts$counts[ref_gene_df$biotype=="protein_coding",]),
-    # tRNA = colSums(
-    # gene_counts$counts[ref_gene_df$biotype=="tRNA",]),
-    # rRNA = colSums(
-    #     gene_counts$counts[ref_gene_df$biotype=="rRNA",])
-)
+    rep = meta_tab$"rep_no")
 
-# counts_summary <- cbind(counts_summary,biotype_counts)
 counts_summary$rRNA <- biotype_counts$rRNA
 
 ## add total mapped counts
@@ -244,7 +220,6 @@ counts_melt$variable <- factor(counts_melt$variable, levels = c(
     "other"
     # non_rRNA_btypes
 ))
-# minUsable <- min(mergedDf$q15_dedup_reads)
 
 
 ylabel <- ifelse(isTRUE(ispaired), "Million read pairs", "Million reads")
@@ -264,8 +239,6 @@ p1 <- ggplot(
     ) +
     scale_colour_manual(values = ggCols, guide = FALSE) +
     scale_y_continuous(labels = unit_format(unit = "", scale = 1e-6)) +
-    ## add a dashed line at the min usable number of reads
-    # geom_hline(yintercept = 5e6, linetype="dashed") +
     theme_bw(base_size = cc1 * 1.3) +
     theme(
         legend.position = "top",
@@ -290,7 +263,6 @@ ggsave(
 ## proportions plot
 #############################
 ## get the proportions of reads per library
-# propCols <- (mergedDf[,c(3,13,14,5)] / mergedDf[,2])
 
 propCols <- counts_summary[c(
     "other",

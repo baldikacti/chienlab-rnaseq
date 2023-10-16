@@ -7,7 +7,7 @@ dependencies:
   - bioconda::bwa>=0.7
   - bioconda::samtools=1.15
   - bioconda::deeptools=3.5.3
-  - bioconda::fastqc>=0.11
-  - bioconda::trim-galore>=0.6
+  - bioconda::fastp=0.23.4
+  - bioconda::multiqc=1.6
   - conda-forge::gawk>=5.1
   - conda-forge::pigz>=2.3     

@@ -30,9 +30,9 @@ option_list <- list(
 opt_parser <- OptionParser(option_list = option_list)
 opt <- parse_args(opt_parser)
 
-counts_f <- "results/QUO1006522/read_counts/gene_counts.tsv"
-meta_f <- "results/QUO1006522/pipeline_info/sample_metadata.tsv"
-cont_tab_f <- "results/QUO1006522/diff_expr/contrast_table.tsv"
+counts_f <- "gene_counts.tsv"
+meta_f <- "sample_metadata.tsv"
+cont_tab_f <- "contrast_table.tsv"
 
 p_thresh <- opt$p_threshold
 l2fc_thresh <- opt$log2fc_threshold

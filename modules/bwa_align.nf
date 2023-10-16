@@ -1,6 +1,6 @@
 process MAKE_BWA_INDEX {
     tag "$ref_genome"
-    label 'process_high'
+    label 'process_medium'
     publishDir "${params.outdir}/bwa_idx", mode: 'copy'
     conda "envs/align_map.yml"
 
@@ -27,7 +27,7 @@ process BWA_ALIGN {
     path idx
 
     output:
-    tuple val(meta), path("*.bam"), emit: bam_files
+    path '*.bam', emit: bam_files
     path '*.bai', emit: bai_files
     path '*.counts', emit: count_files
 
@@ -38,18 +38,16 @@ process BWA_ALIGN {
     if (meta.paired_end) {
         """
         bwa mem -t ${task.cpus} ref_idx \\
-            ${name}_1_val_1.fq.gz ${name}_2_val_2.fq.gz | \\
+            ${trimmed_reads[0]} ${trimmed_reads[1]} | \\
             samtools sort -@ ${task.cpus - 1} -O bam - > ${name}.bam
         samtools index -@ ${task.cpus} ${name}.bam
-        # samtools idxstats ${name}.bam | head -n 1 > ${name}.counts
         samtools view -F 0x4 ${name}.bam | cut -f 1 | sort | uniq | wc -l > ${name}.counts
         """
     } else {
         """
-        bwa mem -t ${task.cpus} ref_idx ${name}_trimmed.fq.gz \\
+        bwa mem -t ${task.cpus} ref_idx ${trimmed_reads} \\
             | samtools sort -@ ${task.cpus - 1} -O bam - > ${name}.bam
         samtools index -@ ${task.cpus} ${name}.bam
-        # samtools idxstats ${name}.bam | head -n 1 > ${name}.counts
         samtools view -F 0x4 ${name}.bam | cut -f 1 | sort | uniq | wc -l > ${name}.counts
         """
     }
@@ -57,18 +55,16 @@ process BWA_ALIGN {
 
 process COUNT_READS {
     tag "$gff"
-    label 'process_high'
+    label 'process_medium'
     publishDir "${params.outdir}/read_counts", mode: 'copy'
     conda "envs/r_env.yml"
 
     input:
-    tuple val(meta), path(bam)
+    path bam
     path bai
     path counts
     path meta
     path gff
-    val paired
-    val strandedness
 
     output:
     path 'gene_counts.tsv', emit: counts_df
@@ -80,13 +76,7 @@ process COUNT_READS {
 
     script:
 
-    if (paired) {
-        """
-        count_reads.R -p TRUE -s $strandedness -m $meta -g $gff -t ${task.cpus}
-        """
-    } else {
-        """
-        count_reads.R -p FALSE -s $strandedness -m $meta -g $gff -t ${task.cpus}
-        """
-    }
+    """
+    count_reads.R -m $meta -g $gff -t ${task.cpus}
+    """
 }

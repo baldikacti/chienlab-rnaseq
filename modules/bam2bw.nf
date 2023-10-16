@@ -5,7 +5,8 @@ process BAM2BIGWIG {
     conda "envs/align_map.yml"
 
     input:
-    tuple val(meta), path(bam)
+    path bam
+    path meta
 
     output:
     path '*.bw', emit: bigwig
@@ -21,13 +22,11 @@ process BAM2BIGWIG {
         samtools merge -f ${name}_fwd.bam ${name}_fwd1.bam ${name}_fwd2.bam
         samtools index ${name}_fwd.bam
         bamCoverage -b ${name}_fwd.bam -o ${name}_fwd.bw
-        rm ${name}_fwd*.bam ${name}_fwd*.bam.bai
         samtools view -b -f 144 ${name}.bam > ${name}_rev1.bam
         samtools view -b -f 64 -F 16 ${name}.bam > ${name}_rev2.bam
         samtools merge -f ${name}_rev.bam ${name}_rev1.bam ${name}_rev2.bam
         samtools index ${name}_rev.bam
         bamCoverage -b ${name}_rev.bam -o ${name}_rev.bw
-        rm ${name}_rev*.bam ${name}_rev*.bam.bai
         """
     } else {
         """

@@ -124,17 +124,6 @@ workflow {
     /*
      *  Create channels for input files
      */
-    // ch_metadata
-    //     .splitCsv(header:true, sep:'\t')
-    //     .map {
-    //         row -> [ row.sample, [ file(row.path_to_file, checkIfExists: true) ] ]
-    //     }
-    //     .set { ch_raw_reads_trimgalore }
-
-    // ch_metadata
-    //     .splitCsv(header: true, sep:'\t')
-    //     .map { row -> row.sample }
-    //     .set { ch_sample_ids }
 
     ch_metadata
         .splitCsv(header: true, sep:'\t')
@@ -224,7 +213,7 @@ workflow {
      */
     if (params.cont_tabl) {
         DIFF_EXPRESSION (
-            ch_readcounts_df_pc,
+            ch_readcounts_df,
             ch_metadata,
             ch_cont_file,
             params.p_thresh,

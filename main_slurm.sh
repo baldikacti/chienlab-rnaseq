@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 #SBATCH --job-name=chienlab-rnaseq-ba   # Job name
 #SBATCH --partition=cpu            # Partition (queue) name
-#SBATCH --ntasks=8                   # Run on a single CPU
+#SBATCH --ntasks=8                   # Number of CPU cores
 #SBATCH --nodes=1                       # Number of nodes
 #SBATCH --mem=32gb                     # Job memory request
 #SBATCH --time=06:00:00               # Time limit hrs:min:sec
-#SBATCH --output=chienlab-rnaseq-ba_%j.log   # Standard output and error log
+#SBATCH --output=logs/chienlab-rnaseq-ba_%j.log   # Standard output and error log
 date;hostname;pwd
 
 # Load modules

@@ -2,13 +2,12 @@
 
 # Run pipeline
 
-nextflow run main_dev.nf \
-    --data_dir data/test/raw \
-    --sample_file data/test/reference.tsv \
+nextflow run dev.nf \
+    --data_dir data/QUO1006522/raw \
+    --sample_file data/QUO1006522/reference.tsv \
+    --cont_tabl data/QUO1006522/contrast_ref.tsv \
     --ref_genome references/NC_011916.fasta \
     --ref_ann references/ccna.gff \
-    --outdir results/test \
+    --outdir results/test2 \
     -profile conda \
-    -with-dag flowchart.html \
-    -with-timeline run_stats.html \
     -resume
