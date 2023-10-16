@@ -2,7 +2,6 @@ library(Rsamtools)
 library(rtracklayer)
 library(GenomicRanges)
 library(GenomicAlignments)
-#library(BSgenome.Mmusculus.UCSC.mm10)
 
 dir_path <- "results/QUO1006522/bwa_aln"
 
@@ -41,4 +40,4 @@ bam2bw <- function(bamfile){
 bamfiles <- dir(path = dir_path, pattern = ".bam$", full.names = TRUE)
 
 # for each element of our vector, call the bam2bw function
-sapply(bamfiles, bam2bw)
+invisible(sapply(bamfiles, bam2bw))
