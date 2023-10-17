@@ -18,24 +18,17 @@ process FASTP {
     tuple val(meta), path("*_failed_reads.fq.gz"), emit: failed_reads
 
     script:
-    def cores = 1
-    if (task.cpus) {
-        cores = (task.cpus as int) - 3
-        if (meta.paired_end) cores = (task.cpus as int) - 4
-        if (cores < 1) cores = 1
-        if (cores > 4) cores = 4
-    }
 
     def name = task.ext.prefix ?: "${meta.sample_id}"
 
    if (meta.paired_end) {
         """
         fastp -i ${reads[0]} -I ${reads[1]} -o ${name}_1_trimmed.fq.gz -O ${name}_2_trimmed.fq.gz --failed_out ${name}_failed_reads.fq.gz \\
-            --thread $cores --html ${name}_fastp.html
+            --thread ${task.cpus} --html ${name}_fastp.html
         """
     } else {
         """
-        fastp -i $reads -o ${name}_trimmed_fq.gz --failed_out ${name}_failed_reads.fq.gz --thread $cores --html ${name}_fastp.html
+        fastp -i $reads -o ${name}_trimmed_fq.gz --failed_out ${name}_failed_reads.fq.gz --thread ${task.cpus} --html ${name}_fastp.html
         """
     }
 }

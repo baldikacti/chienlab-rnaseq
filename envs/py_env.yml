@@ -1,9 +1,0 @@
-name: rnaseq_pyenv
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - conda-forge::numpy>=1.21
-  - conda-forge::python>=3.7, <3.9
-  - conda-forge::pandas>=1.4
