@@ -9,11 +9,11 @@ process BAM2BIGWIG {
     path bai
 
     output:
-    path '*.bw', emit: bigwig
+    path "${bam.baseName}.bw"
 
     script:
 
     """
-    bamCoverage -b ${bam} -o ${bam}.bw
+    bamCoverage -b ${bam} -o ${bam.baseName}.bw
     """  
 }
