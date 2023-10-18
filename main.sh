@@ -8,5 +8,4 @@ nextflow run main.nf \
     --ref_genome references/NC_011916.fasta \
     --ref_ann references/ccna.gff \
     --outdir results/test \
-    -profile conda \
-    -resume
+    -profile conda

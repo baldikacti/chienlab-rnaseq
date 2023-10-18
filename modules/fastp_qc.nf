@@ -28,7 +28,7 @@ process FASTP {
         """
     } else {
         """
-        fastp -i $reads -o ${name}_trimmed_fq.gz --failed_out ${name}_failed_reads.fq.gz --thread ${task.cpus} --html ${name}_fastp.html
+        fastp -i ${reads} -o ${name}_trimmed.fq.gz --failed_out ${name}_failed_reads.fq.gz --thread ${task.cpus} --html ${name}_fastp.html
         """
     }
 }

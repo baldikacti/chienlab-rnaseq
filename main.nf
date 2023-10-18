@@ -87,7 +87,7 @@ workflow {
         .splitCsv(header: true, sep:'\t')
         .map { create_fastq_channel(it) }
         .set { ch_raw_reads_fastp }
-
+    
    /*
      *  QC and trimming for fastq files
      */

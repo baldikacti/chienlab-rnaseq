@@ -1,7 +1,7 @@
 process MAKE_META_FILE {
     tag "$sample_file"
     publishDir "${params.outdir}/pipeline_info", mode: 'copy'
-    conda "envs/align_map.yml"
+    conda "envs/r_env.yml"
 
     input:
     path sample_file
@@ -11,6 +11,6 @@ process MAKE_META_FILE {
 
     script:
     """
-    make_meta_file.py $sample_file ${params.data_dir} sample_metadata.tsv
+    make_meta_file.R --sample_file $sample_file --data_dir ${params.data_dir} --outf sample_metadata.tsv
     """
 }
