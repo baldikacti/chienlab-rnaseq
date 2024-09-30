@@ -7,7 +7,7 @@ process FASTP {
                       else if (filename.endsWith('failed_reads.fq.gz')) "failed_reads/$filename"
                       else params.save_trimmed ? filename : null
                 }
-    conda "envs/align_map.yml"
+    conda "bioconda::fastp=0.23.4"
 
     input:
     tuple val(meta), path(reads)

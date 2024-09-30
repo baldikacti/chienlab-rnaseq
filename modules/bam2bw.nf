@@ -2,7 +2,7 @@ process BAM2BIGWIG {
     tag "$bam"
     label 'process_medium'
     publishDir "${params.outdir}/bigwig", mode: 'copy'
-    conda "envs/align_map.yml"
+    conda "bioconda::deeptools=3.5.3"
 
     input:
     path bam

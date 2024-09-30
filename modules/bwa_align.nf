@@ -2,7 +2,7 @@ process MAKE_BWA_INDEX {
     tag "$ref_genome"
     label 'process_medium'
     publishDir "${params.outdir}/bwa_idx", mode: 'copy'
-    conda "envs/align_map.yml"
+    conda "bioconda::bwa>=0.7"
 
     input:
     path ref_genome
@@ -20,7 +20,7 @@ process BWA_ALIGN {
     tag "$meta.sample_id"
     label 'process_high'
     publishDir "${params.outdir}/bwa_aln", mode: 'copy'
-    conda "envs/align_map.yml"
+    conda "bioconda::bwa>=0.7 bioconda::samtools=1.15"
 
     input:
     tuple val(meta), path(trimmed_reads)
@@ -57,7 +57,7 @@ process COUNT_READS {
     tag "$gff"
     label 'process_medium'
     publishDir "${params.outdir}/read_counts", mode: 'copy'
-    conda "envs/r_env.yml"
+    conda "conda-forge::r-base=4.1 conda-forge::r-optparse conda-forge::r-ape conda-forge::r-stringr conda-forge::r-ggplot2 conda-forge::r-scales conda-forge::r-rcolorbrewer conda-forge::r-reshape2 conda-forge::r-tibble conda-forge::r-rsqlite"
 
     input:
     path bam

@@ -1,7 +1,7 @@
 process MAKE_META_FILE {
     tag "$sample_file"
     publishDir "${params.outdir}/pipeline_info", mode: 'copy'
-    conda "envs/r_env.yml"
+    conda "conda-forge::r-base=4.1 conda-forge::r-optparse"
 
     input:
     path sample_file
