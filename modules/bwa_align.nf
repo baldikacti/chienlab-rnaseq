@@ -2,7 +2,7 @@ process MAKE_BWA_INDEX {
     tag "$ref_genome"
     label 'process_medium'
     publishDir "${params.outdir}/bwa_idx", mode: 'copy'
-    conda "bioconda::bwa>=0.7"
+    conda "bioconda::bwa=0.7.17"
 
     input:
     path ref_genome
@@ -20,7 +20,7 @@ process BWA_ALIGN {
     tag "$meta.sample_id"
     label 'process_high'
     publishDir "${params.outdir}/bwa_aln", mode: 'copy'
-    conda "bioconda::bwa>=0.7 bioconda::samtools=1.15"
+    conda "bioconda::bwa=0.7.17 bioconda::samtools=1.15"
 
     input:
     tuple val(meta), path(trimmed_reads)
