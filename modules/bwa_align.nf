@@ -57,7 +57,7 @@ process COUNT_READS {
     tag "$gff"
     label 'process_medium'
     publishDir "${params.outdir}/read_counts", mode: 'copy'
-    conda "conda-forge::r-base=4.1 conda-forge::r-optparse conda-forge::r-ape conda-forge::r-stringr conda-forge::r-ggplot2 conda-forge::r-scales conda-forge::r-rcolorbrewer conda-forge::r-reshape2 conda-forge::r-tibble conda-forge::r-rsqlite"
+    conda "conda-forge::r-base=4.1 conda-forge::r-optparse conda-forge::r-ape conda-forge::r-stringr conda-forge::r-ggplot2 conda-forge::r-scales conda-forge::r-rcolorbrewer conda-forge::r-reshape2 conda-forge::r-tibble conda-forge::r-rsqlite bioconda::bioconductor-rsubread"
 
     input:
     path bam

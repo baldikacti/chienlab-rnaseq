@@ -3,7 +3,7 @@ results/
 logs/
 
 .nextflow/
-nextflow.log*
+.nextflow.log*
 work/
 
 *.sh
