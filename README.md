@@ -2,8 +2,6 @@
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A521.10.3-23aa62.svg?labelColor=000000)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
-[![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
-[![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 
 ## Introduction
 
@@ -29,7 +27,7 @@ You will need to install [`Nextflow`](https://www.nextflow.io/) (version 21.10.3
 
 ```
 Usage:
-nextflow run main.nf --data_dir [dir] --sample_file [file] --ref_genome [file] --ref_ann [file] -profile conda [other_options]
+nextflow run baldikacti/chienlab-rnaseq --data_dir [dir] --sample_file [file] --ref_genome [file] --ref_ann [file] -profile conda [other_options]
 
 Mandatory arguments:
   --data_dir [file]               Path to directory containing FastQ files.
@@ -76,21 +74,28 @@ Explanation of parameters:
   - `paired`: data are paired-end? (0 = single-end, 1 = paired-end).
   - `strandedness` : Is data stranded? Options: `unstranded`, `forward`, `reverse`.
 
-  Example:
+  **Example:**
 
   If data are single-end, leave the `file2` column blank.
   
   Sample file can contain a mix of single-end and paired-end, and a mix of stranded and unstranded samples.
 
+**reference.tsv**
   | sample | file1                  | file2 | group             | rep_no | paired | strandedness |
   | :----: | :-------------------:  | :---: | :---------------: | :----: | :----: | :----------: |
-  | AS_1   | SRX1607051_T1.fastq.gz |       | Artificial_Sputum |   1    |   1    |    reverse   |
-  | AS_2   | SRX1607052_T1.fastq.gz |       | Artificial_Sputum |   2    |   1    |    reverse   |
-  | AS_3   | SRX1607053_T1.fastq.gz |       | Artificial_Sputum |   3    |   1    |    reverse   |
-  | MB_1   | SRX1607054_T1.fastq.gz |       | Middlebrook       |   1    |   1    |    reverse   |
-  | MB_2   | SRX1607055_T1.fastq.gz |       | Middlebrook       |   2    |   1    |    reverse   |
-  | MB_3   | SRX1607056_T1.fastq.gz |       | Middlebrook       |   3    |   1    |    reverse   |
+  | AS_1   | SRX1607051_T1.fastq.gz |       | Artificial_Sputum |   1    |   0    |    reverse   |
+  | AS_2   | SRX1607052_T1.fastq.gz |       | Artificial_Sputum |   2    |   0    |    reverse   |
+  | AS_3   | SRX1607053_T1.fastq.gz |       | Artificial_Sputum |   3    |   0    |    reverse   |
+  | MB_1   | SRX1607054_T1.fastq.gz |       | Middlebrook       |   1    |   0    |    reverse   |
+  | MB_2   | SRX1607055_T1.fastq.gz |       | Middlebrook       |   2    |   0    |    reverse   |
+  | MB_3   | SRX1607056_T1.fastq.gz |       | Middlebrook       |   3    |   0    |    reverse   |
 
+**Optional Contrast Table**
+
+**contrast_ref.tsv**
+| contrast1         |	contrast2   |
+| :---------------: | :---------: |
+|	Artificial_Sputum | Middlebrook |
 
 ## Output
 
@@ -104,3 +109,33 @@ Explanation of parameters:
 4. **diff_expr** directory containing differential expression results.
 5. **bigwig** directory containing BigWig files.
 6. **bwa_aln** directory containing BAM files.
+
+## Slurm Example
+
+```bash
+#!/usr/bin/bash
+#SBATCH --job-name=chienlab-rnaseq-ba   # Job name
+#SBATCH --partition=cpu            # Partition (queue) name
+#SBATCH --ntasks=24                   # Number of CPUs
+#SBATCH --nodes=1                       # Number of nodes
+#SBATCH --mem=64gb                     # Job memory request
+#SBATCH --time=06:00:00               # Time limit hrs:min:sec
+#SBATCH --output=logs/chienlab-rnaseq-ba_%j.log   # Standard output and error log
+
+# Load modules
+
+module load nextflow/24.04.3 conda/latest
+
+# Run pipeline
+
+nextflow run baldikacti/chienlab-rnaseq -r v0.1.0 \
+    --data_dir /path/to/fastq \
+    --sample_file /path/to/reference.tsv \
+    --ref_genome /path/to/organism.fasta \
+    --ref_ann /path/to/annotation.gff \
+    --cont_tabl /path/to/contrast_ref.tsv \
+    --outdir /path/to/results \
+    -profile conda \
+    -resume
+
+```

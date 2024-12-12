@@ -5,3 +5,5 @@ logs/
 .nextflow/
 nextflow.log*
 work/
+
+*.sh
