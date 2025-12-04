@@ -2,6 +2,7 @@
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A521.10.3-23aa62.svg?labelColor=000000)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
+[![DOI](https://zenodo.org/badge/688146585.svg)](https://doi.org/10.5281/zenodo.17809426)
 
 ## Introduction
 
@@ -138,4 +139,34 @@ nextflow run baldikacti/chienlab-rnaseq -r v0.1.0 \
     -profile conda \
     -resume
 
+```
+
+# Citation
+
+This software has been used in the following publication. If you use this software in your publication, please cite one of the following.
+
+```
+Aldikacti, B., Putun, H., Sarsani, V., Zeinert, R., Flaherty, P., & Chien, P. (2025). Stress testing reveals selective vulnerabilities in protein homeostasis. bioRxiv : the preprint server for biology, 2025.06.11.659168. https://doi.org/10.1101/2025.06.11.659168
+```
+
+```
+@software{berent_aldikacti_2025_17809427,
+  author       = {Berent Aldikacti},
+  title        = {baldikacti/chienlab-rnaseq: v0.1.0pub Publication
+                   Release
+                  },
+  month        = dec,
+  year         = 2025,
+  publisher    = {Zenodo},
+  version      = {v0.1.0pub},
+  doi          = {10.5281/zenodo.17809427},
+  url          = {https://doi.org/10.5281/zenodo.17809427},
+  swhid        = {swh:1:dir:83cd7ba8cf44d65dd4ca06835dd41c78a537bbf8
+                   ;origin=https://doi.org/10.5281/zenodo.17809426;vi
+                   sit=swh:1:snp:4a4d4113500fcbb9ab49c6438a8a71bee8e3
+                   24b9;anchor=swh:1:rel:fe51489f9cb75637fc90128b8d6b
+                   9a708829c9a0;path=baldikacti-chienlab-
+                   rnaseq-e0b3d68
+                  },
+}
 ```
